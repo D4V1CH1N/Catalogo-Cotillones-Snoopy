@@ -1,0 +1,17 @@
+{
+    "short_name": "SnoopyCotillon",
+    "name": "Cotillones Snoopy - Tienda y Catalogo de Fiesta",
+    "icons": [
+        {
+            "src": "https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": "./index.html",
+    "background_color": "#160e1c",
+    "theme_color": "#db2777",
+    "display": "standalone",
+    "orientation": "any"
+}

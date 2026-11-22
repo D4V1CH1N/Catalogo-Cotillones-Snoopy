@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Cotillones Snoopy - Tienda de fiesta con velas, globos, toppers, vajilla, decoracion y baby shower con soporte PWA Offline.">
+    <title>Cotillones Snoopy | Tienda y Catalogo de Fiesta</title>
+    <!-- Semana 2 - Arquitectura PWA Offline -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#29b6f6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" type="image/jpeg" href="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1">
+    <link rel="apple-touch-icon" href="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Semana 1 - Modo Oscuro -->
+    <link rel="stylesheet" href="./CSS/styles.css">
+</head>
+<body class="modo-claro">
+
+    <!-- Semana 1 - Menu Hamburguesa -->
+    <header class="app-cabecera">
+        <div class="app-cabecera__fila">
+            <div class="header-carrito-slot">
+                <!-- Semana 2 - Arquitectura PWA Offline -->
+                <button type="button" id="btnInstalarPWA" class="btn-cabecera btn-cabecera--instalar" hidden>Instalar App</button>
+                <!-- Semana 3 - Flujo de Pago Rapido -->
+                <button type="button" id="btnCarritoHeader" class="btn-cabecera btn-cabecera--carrito" data-rol="cliente" aria-label="Abrir carrito de pedidos" title="Ver carrito">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+                    <span class="btn-cabecera__texto-carrito">Carrito</span>
+                    <span id="badgeCarritoHeader" class="btn-cabecera__badge-carrito">0</span>
+                    <span id="montoCarritoHeader" class="btn-cabecera__monto-carrito">Bs. 0.00</span>
+                </button>
+            </div>
+
+            <div class="header-identidad">
+                <div class="marca-pildora">
+                    <span class="marca-pildora__emblema">
+                        <img src="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1" alt="Logo oficial de Cotillones Snoopy" class="marca-logo-img">
+                    </span>
+                    <span class="marca-pildora__bloque">
+                        <span class="marca-pildora__titulo">
+                            <span class="marca-pildora__palabra-rosa">Cotillones</span>
+                            <span class="marca-pildora__palabra-celeste">Snoopy</span>
+                        </span>
+                        <span id="marcaNombreTexto" class="marca-pildora__texto">Cotillones Snoopy | Invitado</span>
+                    </span>
+                </div>
+                <span id="estadoRed" class="indicador-red" role="status" aria-live="polite">ONLINE</span>
+            </div>
+
+            <!-- Semana 3 - Buscador Google con Autocompletado -->
+            <div id="panelBuscadorSuperior" class="buscador-superior" data-rol="cliente">
+                <div class="buscador-superior__barra">
+                    <label for="buscadorProductos" class="sr-only">Buscar velas, globos, toppers, pinatas o decoracion</label>
+                    <input type="search" id="buscadorProductos" class="buscador-superior__input" placeholder="Buscar globos, velas, pinatas..." autocomplete="off">
+                    <button type="button" id="btnLimpiarBusqueda" class="buscador-superior__limpiar" aria-label="Limpiar texto de busqueda" title="Limpiar busqueda" hidden>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                    <button type="button" id="btnLupa" class="btn-cabecera btn-cabecera--lupa" aria-label="Buscar en catalogo" aria-expanded="false" aria-controls="panelBuscadorSuperior" title="Buscar en catalogo">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                </div>
+                <div id="sugerenciasBuscador" class="sugerencias-buscador" role="listbox" aria-label="Sugerencias en vivo del catalogo" hidden></div>
+            </div>
+
+            <div class="header-acciones">
+                <button type="button" id="btnAbrirAcceso" class="btn-cabecera btn-cabecera--acceso" aria-label="Abrir panel de cuenta y cambio de rol" title="Cuenta y rol">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span id="badgeRolActivo" class="badge-rol badge-rol--cliente">Cliente</span>
+                </button>
+                <!-- Semana 1 - Modo Oscuro -->
+                <button type="button" id="themeBtn" class="btn-cabecera btn-cabecera--icono" aria-label="Alternar modo claro y modo oscuro" title="Modo claro / oscuro">
+                    <svg class="icono-luna" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icono-sol" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Semana 2 - Arquitectura PWA Offline -->
+    <div id="avisoColaOffline" class="aviso-offline-global" role="status" aria-live="polite" hidden>
+        <span id="textoAvisoOffline">Modo Offline activo: 0 operaciones en cola FIFO.</span>
+        <button type="button" id="btnSincronizarColaGlobal" class="btn-secundario" hidden>Sincronizar ahora</button>
+    </div>
+
+    <div class="contenedor-app">
+        <nav class="dock-acciones" id="dockAcciones" aria-label="Barra de navegacion principal">
+            <div class="dock-acciones__pista">
+                <button type="button" class="dock-acciones__btn barra-celeste-item dock-acciones__btn--activo activo" data-vista="vista-catalogo" data-rol="cliente">
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Catalogo</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vistaMisPedidos" data-rol="cliente">
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Mis Pedidos</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-cotizador" data-rol="cliente">
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Cotizador</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-contacto" data-rol="cliente">
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Contacto</span>
+                </button>
+
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-admin-control" data-rol="admin" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Control</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-op-pedidos" data-rol="operativo" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Pedidos</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-op-consultas" data-rol="operativo" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Consultas</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-op-reservas" data-rol="operativo" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Reservas</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-op-productos" data-rol="operativo" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Productos</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-op-promo" data-rol="operativo" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Promo</span>
+                </button>
+                <button type="button" class="dock-acciones__btn barra-celeste-item" data-vista="vista-admin-auditoria" data-rol="admin" hidden>
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Auditoria</span>
+                </button>
+
+                <button type="button" id="burguerBtn" class="dock-acciones__btn dock-acciones__btn--mas" aria-label="Abrir panel de menu y opciones" aria-expanded="false" aria-controls="drawerMenuMovil">
+                    <span class="dock-item__icono">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>
+                    </span>
+                    <span class="dock-item__texto">Mas</span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="area-contenido" id="areaContenido">
+            <div class="franja-operativa-rol" data-rol="operativo" hidden>
+                <span id="etiquetaModuloActivo" class="insignia-categoria" hidden></span>
+            </div>
+
+            <!-- Semana 3 - Flujo de Pago Rapido -->
+            <section id="vista-catalogo" class="vista-panel" data-rol="cliente">
+                <article id="bannerPromoExpress" class="banner-promo-express" hidden>
+                    <div class="banner-promo-express__arte" aria-hidden="true">
+                        <svg viewBox="0 0 300 210" class="hero-fiesta-svg" aria-hidden="true">
+                            <path d="M10 18 Q150 56 290 18" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.85"/>
+                            <polygon points="34,26 68,34 48,66" fill="#facc15"/>
+                            <polygon points="84,36 120,42 100,74" fill="#29b6f6"/>
+                            <polygon points="134,43 170,43 152,78" fill="#ec4899"/>
+                            <polygon points="184,42 220,36 202,74" fill="#facc15"/>
+                            <polygon points="234,34 268,26 254,66" fill="#ffffff" opacity="0.9"/>
+                            <circle cx="30" cy="148" r="9" fill="#facc15" opacity="0.75"/>
+                            <circle cx="272" cy="112" r="8" fill="#ffffff" opacity="0.55"/>
+                            <circle cx="264" cy="172" r="11" fill="#facc15" opacity="0.5"/>
+                            <path d="M26 178 Q56 146 46 112 T78 82" stroke="#facc15" stroke-width="4" stroke-linecap="round" fill="none"/>
+                            <ellipse cx="98" cy="112" rx="34" ry="42" fill="#facc15"/>
+                            <ellipse cx="88" cy="98" rx="8" ry="14" fill="#ffffff" opacity="0.45" transform="rotate(-18 88 98)"/>
+                            <path d="M98 154 Q94 176 116 196" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+                            <ellipse cx="154" cy="100" rx="38" ry="46" fill="#29b6f6" stroke="#ffffff" stroke-width="3"/>
+                            <ellipse cx="142" cy="84" rx="9" ry="15" fill="#ffffff" opacity="0.45" transform="rotate(-16 142 84)"/>
+                            <path d="M154 146 Q152 174 144 198" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+                            <ellipse cx="206" cy="118" rx="31" ry="38" fill="#ec4899" stroke="#facc15" stroke-width="3"/>
+                            <ellipse cx="196" cy="106" rx="7" ry="12" fill="#ffffff" opacity="0.45" transform="rotate(-16 196 106)"/>
+                            <path d="M206 156 Q192 178 172 198" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+                            <polygon points="56,164 61,176 74,177 64,185 67,198 56,191 45,198 48,185 38,177 51,176" fill="#facc15"/>
+                            <polygon points="244,82 248,91 258,92 250,98 253,108 244,102 235,108 238,98 230,92 240,91" fill="#facc15"/>
+                        </svg>
+                    </div>
+                    <div class="banner-promo-express__izq">
+                        <span class="banner-promo-express__etiqueta">OFERTA EXPRESS DE FIESTA</span>
+                        <p class="banner-promo-express__lema">EL COTILLON QUE CONVIERTE CUALQUIER REUNION EN UNA FIESTA</p>
+                        <h2 id="promoTitulo" class="banner-promo-express__titulo"></h2>
+                        <p id="promoDescripcion" class="banner-promo-express__desc"></p>
+                        <div id="promoDetalleSeguro" class="banner-promo-express__detalle"></div>
+                    </div>
+                    <div class="banner-promo-express__der">
+                        <div class="banner-promo-express__cifras">
+                            <span class="banner-promo-express__sello">
+                                <span class="banner-promo-express__sello-etq">SOLO HOY</span>
+                                <strong id="promoPrecio" class="banner-promo-express__precio"></strong>
+                            </span>
+                            <strong id="promoCuentaRegresiva" class="banner-promo-express__reloj" aria-label="Tiempo restante de promocion">--:--</strong>
+                        </div>
+                        <div class="fila-tactil">
+                            <button type="button" id="btnReclamarPromo" class="banner-promo-express__cta btn-tactil">Reclamar y Pagar</button>
+                            <span id="promoConfirmaciones" class="banner-promo-express__etiqueta">0 reclamos</span>
+                        </div>
+                    </div>
+                    <div class="barra-progreso banner-promo-express__barra">
+                        <div id="promoBarraTiempo" class="barra-progreso__relleno"></div>
+                    </div>
+                </article>
+
+                <section class="franja-seccion-rosa" aria-label="Seccion activa del catalogo">
+                    <h1 id="tituloPrincipalApp" class="franja-seccion-rosa__titulo">Catalogo de Fiesta</h1>
+                    <p id="rutaCategoriaActual" class="franja-seccion-rosa__ruta">Inicio &gt; Catalogo</p>
+                </section>
+
+                <section id="gridCategoriasVisuales" class="grid-categorias-visuales" aria-label="Categorias visuales de cotillon">
+                    <button type="button" class="cat-visual-card" data-categoria="Velas y Toppers">
+                        <span class="cat-visual-card__arte cat-visual-card__arte--velas">
+                            <svg viewBox="0 0 200 130" width="160" height="104" aria-hidden="true">
+                                <circle cx="34" cy="28" r="7" fill="#facc15" opacity="0.8"/>
+                                <circle cx="168" cy="30" r="6" fill="#ffffff" opacity="0.6"/>
+                                <rect x="44" y="76" width="112" height="40" rx="12" fill="#ffffff"/>
+                                <path d="M44 86 Q60 98 76 86 T108 86 T140 86 T156 86 L156 76 L44 76 Z" fill="#ec4899"/>
+                                <rect x="74" y="42" width="12" height="34" rx="5" fill="#facc15"/>
+                                <rect x="94" y="34" width="12" height="42" rx="5" fill="#ec4899"/>
+                                <rect x="114" y="42" width="12" height="34" rx="5" fill="#8b5cf6"/>
+                                <path d="M80 24 C84 30 85 36 80 39 C75 36 76 30 80 24 Z" fill="#fde047"/>
+                                <path d="M100 16 C104 22 105 28 100 31 C95 28 96 22 100 16 Z" fill="#fde047"/>
+                                <path d="M120 24 C124 30 125 36 120 39 C115 36 116 30 120 24 Z" fill="#fde047"/>
+                                <polygon points="154,50 158,59 168,60 160,66 163,76 154,70 145,76 148,66 140,60 150,59" fill="#facc15"/>
+                            </svg>
+                        </span>
+                        <span class="cat-visual-card__pie">VELAS Y TOPPERS</span>
+                    </button>
+
+                    <button type="button" class="cat-visual-card" data-categoria="Vajilla y Decoracion">
+                        <span class="cat-visual-card__arte cat-visual-card__arte--vajilla">
+                            <svg viewBox="0 0 200 130" width="160" height="104" aria-hidden="true">
+                                <rect x="20" y="12" width="12" height="102" rx="4" fill="#ffffff" opacity="0.22"/>
+                                <rect x="168" y="12" width="12" height="102" rx="4" fill="#facc15" opacity="0.32"/>
+                                <circle cx="78" cy="70" r="38" fill="#ffffff"/>
+                                <circle cx="78" cy="70" r="27" fill="none" stroke="#29b6f6" stroke-width="5" stroke-dasharray="7 5"/>
+                                <circle cx="78" cy="70" r="14" fill="#facc15"/>
+                                <path d="M138 22 L152 18 L142 56" stroke="#facc15" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polygon points="118,48 164,48 156,108 126,108" fill="#ffffff"/>
+                                <polygon points="121,68 161,68 159,86 123,86" fill="#29b6f6"/>
+                                <rect x="115" y="44" width="52" height="7" rx="3.5" fill="#facc15"/>
+                            </svg>
+                        </span>
+                        <span class="cat-visual-card__pie">VAJILLA Y DECORACION</span>
+                    </button>
+
+                    <button type="button" class="cat-visual-card" data-categoria="Globos y Pinatas">
+                        <span class="cat-visual-card__arte cat-visual-card__arte--globos">
+                            <svg viewBox="0 0 200 130" width="160" height="104" aria-hidden="true">
+                                <ellipse cx="64" cy="54" rx="24" ry="30" fill="#ec4899"/>
+                                <ellipse cx="102" cy="46" rx="26" ry="32" fill="#29b6f6"/>
+                                <ellipse cx="140" cy="56" rx="23" ry="28" fill="#8b5cf6"/>
+                                <line x1="64" y1="84" x2="88" y2="112" stroke="#1e1b4b" stroke-width="2.2"/>
+                                <line x1="102" y1="78" x2="102" y2="114" stroke="#1e1b4b" stroke-width="2.2"/>
+                                <line x1="140" y1="84" x2="118" y2="112" stroke="#1e1b4b" stroke-width="2.2"/>
+                                <path d="M56 96 C66 84 86 84 100 94 C114 84 134 84 144 96 C140 112 120 116 106 106 L100 102 L94 106 C80 116 60 112 56 96 Z" fill="#1e1b4b"/>
+                                <circle cx="80" cy="98" r="6" fill="#facc15"/>
+                                <circle cx="120" cy="98" r="6" fill="#facc15"/>
+                            </svg>
+                        </span>
+                        <span class="cat-visual-card__pie">GLOBOS Y PINATAS</span>
+                    </button>
+
+                    <button type="button" class="cat-visual-card" data-categoria="Baby Shower y Eventos">
+                        <span class="cat-visual-card__arte cat-visual-card__arte--eventos">
+                            <svg viewBox="0 0 200 130" width="160" height="104" aria-hidden="true">
+                                <ellipse cx="64" cy="48" rx="24" ry="29" fill="#29b6f6"/>
+                                <ellipse cx="136" cy="48" rx="24" ry="29" fill="#ec4899"/>
+                                <line x1="64" y1="77" x2="86" y2="102" stroke="#db2777" stroke-width="2"/>
+                                <line x1="136" y1="77" x2="114" y2="102" stroke="#0284c7" stroke-width="2"/>
+                                <rect x="74" y="66" width="52" height="46" rx="8" fill="#ffffff" stroke="#ec4899" stroke-width="2.5"/>
+                                <rect x="95" y="66" width="10" height="46" fill="#facc15"/>
+                                <rect x="74" y="84" width="52" height="10" fill="#29b6f6"/>
+                                <circle cx="93" cy="60" r="8" fill="#facc15"/>
+                                <circle cx="107" cy="60" r="8" fill="#facc15"/>
+                                <polygon points="100,18 104,27 114,28 106,34 108,44 100,38 92,44 94,34 86,28 96,27" fill="#facc15"/>
+                            </svg>
+                        </span>
+                        <span class="cat-visual-card__pie">BABY SHOWER Y EVENTOS</span>
+                    </button>
+                </section>
+
+                <div class="panel-bloque barra-controles-catalogo">
+                    <div class="barra-controles-catalogo__cabecera">
+                        <div>
+                            <h2 class="titulo-seccion">Todos los Articulos de Cotillon</h2>
+                            <p id="resultadoFiltro" class="card-item__meta" aria-live="polite">Mostrando todo el catalogo activo.</p>
+                        </div>
+                        <div class="fila-tactil">
+                            <span id="banner-linea" class="banner-linea-compacto"><span id="indicador-linea-activa"><strong>Todas las Categorias</strong></span></span>
+                            <div class="campo-orden-compacto">
+                                <label for="selector-orden" class="sr-only">Ordenar resultados</label>
+                                <select id="selector-orden" class="control-select">
+                                    <option value="destacado">Orden sugerido</option>
+                                    <option value="precio-asc">Menor precio</option>
+                                    <option value="precio-desc">Mayor precio</option>
+                                    <option value="nombre-asc">Nombre A - Z</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="grupo-filtros-categoria" class="chips-fila" role="group" aria-label="Filtrar por categoria de cotillon">
+                        <button type="button" class="btn-filtro btn-filtro--activo" data-categoria="todos">Todos</button>
+                        <button type="button" class="btn-filtro" data-categoria="Velas y Toppers">Velas y Toppers</button>
+                        <button type="button" class="btn-filtro" data-categoria="Vajilla y Decoracion">Vajilla y Decoracion</button>
+                        <button type="button" class="btn-filtro" data-categoria="Globos y Pinatas">Globos y Pinatas</button>
+                        <button type="button" class="btn-filtro" data-categoria="Baby Shower y Eventos">Baby Shower y Eventos</button>
+                        <button type="button" id="btnToggleCascada" class="btn-secundario" aria-expanded="false" aria-controls="filtros-cascada">Filtro de 3 Capas</button>
+                    </div>
+
+                    <div id="filtros-cascada" class="panel-cascada" hidden>
+                        <p class="micro-guia">Elige primero la categoria de fiesta y luego la subcategoria para encontrar tu decoracion ideal</p>
+                        <div class="panel-cascada__grilla">
+                            <div class="campo-grupo">
+                                <label for="capa1" class="etiqueta-campo">Capa 1 - Categoria</label>
+                                <select id="capa1" class="control-select">
+                                    <option value="">Todas las categorias</option>
+                                    <option value="Velas y Toppers">Velas y Toppers</option>
+                                    <option value="Vajilla y Decoracion">Vajilla y Decoracion</option>
+                                    <option value="Globos y Pinatas">Globos y Pinatas</option>
+                                    <option value="Baby Shower y Eventos">Baby Shower y Eventos</option>
+                                </select>
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="capa2" class="etiqueta-campo">Capa 2 - Subcategoria</label>
+                                <select id="capa2" class="control-select" disabled>
+                                    <option value="">Elige primero una categoria</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="contenedor-tarjetas" class="catalogo-grid" aria-live="polite"></div>
+
+                <section id="franjaPaquetesCatalogo" class="panel-bloque franja-paquetes" aria-label="Combos y Kits de Celebracion Recomendados">
+                    <div class="barra-controles-catalogo__cabecera">
+                        <h2 class="titulo-seccion">Combos y Kits de Celebracion Recomendados</h2>
+                        <span class="insignia-categoria">Ahorro de Fiesta</span>
+                    </div>
+                    <div id="contenedorPaquetesRecomendados" class="catalogo-grid"></div>
+                </section>
+            </section>
+
+            <!-- Semana 3 - Vista Completa de Detalle de Producto -->
+            <section id="vistaDetalleProducto" class="vista-panel vista-seccion oculto" data-rol="cliente" aria-label="Detalle del producto" hidden>
+                <div class="detalle-producto__barra">
+                    <button type="button" id="btnVolverCatalogo" class="detalle-producto__btn-volver">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span>Volver al Catalogo</span>
+                    </button>
+                    <p id="detalleRutaProducto" class="detalle-producto__ruta" aria-label="Ruta del producto">Catalogo</p>
+                </div>
+
+                <article class="detalle-producto__tarjeta">
+                    <div class="detalle-producto__galeria">
+                        <div class="detalle-producto__foto-marco">
+                            <img id="detalleProductoImagen" class="detalle-producto__foto img-ampliable" src="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1" alt="Fotografia detallada del producto de fiesta Cotillones Snoopy">
+                        </div>
+                        <span class="detalle-producto__zoom-pista">Toca la imagen para verla en tamano completo</span>
+                    </div>
+
+                    <div class="detalle-producto__info">
+                        <span id="detalleProductoCategoria" class="detalle-producto__categoria">Velas y Toppers</span>
+                        <h2 id="detalleProductoTitulo" class="detalle-producto__titulo">Producto de Fiesta</h2>
+                        <div class="detalle-producto__precio-fila">
+                            <strong id="detalleProductoPrecio" class="detalle-producto__precio">Bs. 0.00</strong>
+                            <span id="detalleProductoStock" class="detalle-producto__stock">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>En stock - Listo para entrega</span>
+                            </span>
+                        </div>
+
+                        <div class="detalle-producto__descripcion-bloque">
+                            <h3 class="detalle-producto__subtitulo">Descripcion y Colores / Tematicas</h3>
+                            <p id="detalleProductoDescripcion" class="detalle-producto__texto"></p>
+                            <p id="detalleProductoTematica" class="detalle-producto__dato"></p>
+                            <p id="detalleProductoPresentacion" class="detalle-producto__dato"></p>
+                            <p id="detalleProductoFicha" class="detalle-producto__texto-sec"></p>
+                        </div>
+
+                        <div class="detalle-producto__cantidad-fila">
+                            <span class="detalle-producto__cantidad-label">Cantidad</span>
+                            <div class="detalle-producto__stepper" role="group" aria-label="Selector de cantidad">
+                                <button type="button" id="btnDetalleMenos" class="detalle-producto__stepper-btn" aria-label="Restar cantidad">-</button>
+                                <span id="detalleCantidadValor" class="detalle-producto__stepper-valor" aria-live="polite">1</span>
+                                <button type="button" id="btnDetalleMas" class="detalle-producto__stepper-btn detalle-producto__stepper-btn--mas" aria-label="Sumar cantidad">+</button>
+                            </div>
+                        </div>
+
+                        <div class="detalle-producto__acciones">
+                            <button type="button" id="btnDetalleAgregar" class="detalle-producto__btn-agregar">+ Agregar al Carrito</button>
+                            <button type="button" id="btnDetalleComprarAhora" class="detalle-producto__btn-comprar">Comprar ahora</button>
+                        </div>
+                    </div>
+                </article>
+
+                <section class="detalle-producto__relacionados" aria-label="Productos relacionados">
+                    <div class="barra-controles-catalogo__cabecera">
+                        <h2 class="titulo-seccion">Tambien te puede gustar</h2>
+                        <span class="insignia-categoria">Misma Categoria</span>
+                    </div>
+                    <div id="contenedorRelacionados" class="catalogo-grid" aria-live="polite"></div>
+                </section>
+            </section>
+
+            <section id="vistaMisPedidos" class="vista-panel" data-rol="cliente" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <div>
+                            <h2 class="titulo-seccion">Pedidos Pendientes</h2>
+                            <p class="card-item__meta">Puedes editar o cancelar tus pedidos de fiesta mientras el Encargado no los haya confirmado.</p>
+                        </div>
+                        <button type="button" id="btnRefrescarMisPedidos" class="btn-secundario">Actualizar</button>
+                    </div>
+                    <div id="listaPedidosPendientesCliente" class="lista-elementos" aria-live="polite"></div>
+                </article>
+
+                <article class="panel-bloque">
+                    <h2 class="titulo-seccion">Historial de Pedidos</h2>
+                    <div id="listaPedidosHistorialCliente" class="lista-elementos" aria-live="polite"></div>
+                </article>
+
+                <div id="invitacionCuentaPedidos" class="micro-guia fila-tactil">
+                    <span>Quieres guardar tu historial de fiestas entre dispositivos? Crea una cuenta rapida en segundos.</span>
+                    <button type="button" class="btn-secundario btn-abrir-registro-rapido">Crear cuenta rapida</button>
+                </div>
+            </section>
+
+            <section id="vista-cotizador" class="vista-panel" data-rol="cliente" hidden>
+                <div class="subtabs-bar" role="tablist" aria-label="Herramientas del cotizador de fiesta">
+                    <button type="button" class="btn-subtab btn-subtab--activo" data-grupo="cotizador" data-subtab="subtab-calculador">Calculador de Packs</button>
+                    <button type="button" class="btn-subtab" data-grupo="cotizador" data-subtab="subtab-turnos">Reservas y Lista</button>
+                </div>
+
+                <div id="subtab-calculador" class="panel-subtab" data-grupo="cotizador">
+                    <div class="grilla-dos-col">
+                        <article class="panel-bloque">
+                            <div class="cotizador-cabecera-card">
+                                <h2 class="titulo-seccion">Calculador de Packs de Cotillon</h2>
+                                <button type="button" id="btnEjemploCotizador" class="cotizador-btn-ejemplo">Ver ejemplo rapido</button>
+                            </div>
+                            <p class="cotizador-subtitulo">Ideal si organizas una fiesta y quieres saber el costo total antes de pedir.</p>
+                            <div class="formulario-estandar">
+                                <div class="campo-grupo">
+                                    <label for="hrs" class="etiqueta-campo">Cantidad de Packs de Fiesta (25 Bs./pack)</label>
+                                    <input type="number" id="hrs" class="control-input" value="1" min="1" inputmode="numeric">
+                                </div>
+                                <h3 class="subtitulo-bloque">Total estimado: <span id="total">25</span> Bs.</h3>
+                                <button type="button" id="btnModal" class="btn-primario">Reservar y Confirmar Pedido</button>
+                            </div>
+                        </article>
+
+                        <article class="panel-bloque">
+                            <h2 class="titulo-seccion">Pedido Rapido por Combo de Fiesta</h2>
+                            <p class="cotizador-subtitulo">Escoge un paquete armado y escribe la tematica (ej. Sonic, Minnie, futbol) para prepararlo a tu gusto.</p>
+                            <form id="orderForm" class="formulario-estandar" novalidate>
+                                <div class="campo-grupo">
+                                    <label for="variantSelect" class="etiqueta-campo">Combo o Paquete de Celebracion</label>
+                                    <select id="variantSelect" class="control-select">
+                                        <option value="Pack Cumpleanos Basico (10 invitados)" data-precio="45">Pack Cumpleanos Basico (10 invitados) - Bs. 45</option>
+                                        <option value="Pack Fiesta Infantil Completo (25 invitados)" data-precio="95">Pack Fiesta Infantil Completo (25 invitados) - Bs. 95</option>
+                                        <option value="Pack Baby Shower o Graduacion (40 invitados)" data-precio="150">Pack Baby Shower o Graduacion (40 invitados) - Bs. 150</option>
+                                    </select>
+                                </div>
+                                <div class="campo-grupo">
+                                    <div class="cabecera-campo">
+                                        <label for="userTikTok" class="etiqueta-campo">Tematica, Colores o Nombre del Festejado</label>
+                                        <span id="errUserTikTok" class="estado-validacion-campo"></span>
+                                    </div>
+                                    <input type="text" id="userTikTok" class="control-input" placeholder="Ej. Sonic azul y dorado - Mateo 6 anos">
+                                </div>
+                                <button type="submit" class="btn-primario">Agregar Combo al Carrito</button>
+                            </form>
+                            <div id="estadoOrdenDirecta" class="feedback-formulario" aria-live="polite" hidden></div>
+                        </article>
+                    </div>
+                </div>
+
+                <div id="subtab-turnos" class="panel-subtab" data-grupo="cotizador" hidden>
+                    <div class="grilla-dos-col">
+                        <article class="panel-bloque">
+                            <h2 class="titulo-seccion">Reserva de Fecha para Evento</h2>
+                            <p class="cotizador-subtitulo">Asegura tus productos con anticipacion para recogerlos en tienda o recibirlos el dia de tu celebracion.</p>
+                            <form id="formReserva" class="formulario-estandar" novalidate>
+                                <div class="campo-grupo">
+                                    <div class="cabecera-campo">
+                                        <label for="clienteNombre" class="etiqueta-campo">Nombre del Cliente o Familia</label>
+                                        <span id="errClienteReserva" class="estado-validacion-campo"></span>
+                                    </div>
+                                    <input type="text" id="clienteNombre" class="control-input" placeholder="Ingresa tu nombre o familia">
+                                </div>
+                                <div class="campo-grupo">
+                                    <label for="salaSelect" class="etiqueta-campo">Tipo de Atencion o Entrega</label>
+                                    <select id="salaSelect" class="control-select">
+                                        <option value="EVENTO-01|Retiro en Tienda Cotillones Snoopy">Retiro en Tienda Cotillones Snoopy</option>
+                                        <option value="DECO-02|Armado de Combo Personalizado">Armado de Combo Personalizado</option>
+                                        <option value="DELIV-03|Entrega Programada para Evento">Entrega Programada para Evento</option>
+                                    </select>
+                                </div>
+                                <div class="grilla-dos-col">
+                                    <div class="campo-grupo">
+                                        <label for="fechaReserva" class="etiqueta-campo">Fecha del Evento</label>
+                                        <input type="date" id="fechaReserva" class="control-input">
+                                    </div>
+                                    <div class="campo-grupo">
+                                        <label for="horarioReserva" class="etiqueta-campo">Horario</label>
+                                        <select id="horarioReserva" class="control-select">
+                                            <option value="09:30">09:30 hrs</option>
+                                            <option value="14:00">14:00 hrs</option>
+                                            <option value="17:30">17:30 hrs</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primario">Confirmar Reserva de Evento</button>
+                            </form>
+                            <ul id="listaReservas" class="lista-elementos" aria-live="polite"></ul>
+                        </article>
+
+                        <article class="panel-bloque">
+                            <h2 class="titulo-seccion">Lista Rapida de Colores y Caricaturas</h2>
+                            <p class="cotizador-subtitulo">Anota aqui los globos, numeros o personajes que te faltan para tenerlos a mano antes de confirmar tu compra.</p>
+                            <div class="campo-grupo">
+                                <label for="inputCancion" class="etiqueta-campo">Color, numero o caricatura que buscas</label>
+                                <div class="fila-tactil">
+                                    <input type="text" id="inputCancion" class="control-input" placeholder="Ej. Globo numero 5 dorado o banderin de Kuromi">
+                                    <button type="button" id="btnPedir" class="btn-primario">+ Anotar</button>
+                                </div>
+                            </div>
+                            <div id="listaCanciones" class="lista-elementos" aria-live="polite"></div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="vista-contacto" class="vista-panel" data-rol="cliente" hidden>
+                <article class="panel-bloque">
+                    <h2 class="titulo-seccion">Consultas de Colores, Caricaturas y Stock</h2>
+                    <p class="micro-guia">Escribenos para consultar colores, numeros, personajes disponibles o combos de decoracion y revisa nuestras respuestas en tiempo real.</p>
+                    <form id="formConsultaCliente" class="formulario-estandar" novalidate>
+                        <div class="campo-grupo">
+                            <div class="cabecera-campo">
+                                <label for="consultaMensaje" class="etiqueta-campo">Escribe tu consulta sobre productos, tematicas o pedidos</label>
+                                <span id="errConsultaMensaje" class="estado-validacion-campo"></span>
+                            </div>
+                            <textarea id="consultaMensaje" class="control-textarea" rows="3" placeholder="Ej. Tienen disponibles toppers de Paw Patrol y globos dorados numero 7 para este sabado?"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primario">Enviar Consulta</button>
+                    </form>
+                    <div id="feedbackConsultaCliente" class="feedback-formulario" aria-live="polite" hidden></div>
+                    <h3 class="subtitulo-bloque">Historial de Consultas y Respuestas</h3>
+                    <div id="listaConsultasCliente" class="lista-elementos" aria-live="polite"></div>
+                </article>
+            </section>
+
+            <section id="vista-op-pedidos" class="vista-panel" data-rol="operativo" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <h2 class="titulo-seccion">Pedidos Entrantes de Fiesta</h2>
+                        <button type="button" id="btnRefrescarPedidos" class="btn-secundario">Actualizar Pedidos</button>
+                    </div>
+                    <div id="listaPedidosOp" class="lista-elementos" aria-live="polite"></div>
+                </article>
+            </section>
+
+            <section id="vista-op-consultas" class="vista-panel" data-rol="operativo" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <h2 class="titulo-seccion">Consultas de Clientes</h2>
+                        <button type="button" id="btnRefrescarConsultas" class="btn-secundario">Actualizar Consultas</button>
+                    </div>
+                    <div id="listaConsultasOp" class="lista-elementos" aria-live="polite"></div>
+                </article>
+            </section>
+
+            <section id="vista-op-reservas" class="vista-panel" data-rol="operativo" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <h2 class="titulo-seccion">Reservas de Fechas y Eventos</h2>
+                        <button type="button" id="btnRefrescarReservas" class="btn-secundario">Actualizar Reservas</button>
+                    </div>
+                    <div id="listaReservasOp" class="lista-elementos" aria-live="polite"></div>
+                </article>
+            </section>
+
+            <section id="vista-op-productos" class="vista-panel" data-rol="operativo" hidden>
+                <div class="grilla-dos-col">
+                    <article class="panel-bloque">
+                        <h2 class="titulo-seccion">Agregar Producto Extra y Foto</h2>
+                        <form id="formProductoExtra" class="formulario-estandar" novalidate>
+                            <div class="campo-grupo">
+                                <label for="prodExtraNombre" class="etiqueta-campo">Nombre del Producto</label>
+                                <input type="text" id="prodExtraNombre" class="control-input" placeholder="Ej. Vela Magica Dorada con Brillo">
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="prodExtraCategoria" class="etiqueta-campo">Categoria</label>
+                                <select id="prodExtraCategoria" class="control-select">
+                                    <option value="Velas y Toppers">Velas y Toppers</option>
+                                    <option value="Vajilla y Decoracion">Vajilla y Decoracion</option>
+                                    <option value="Globos y Pinatas">Globos y Pinatas</option>
+                                    <option value="Baby Shower y Eventos">Baby Shower y Eventos</option>
+                                </select>
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="prodExtraPrecio" class="etiqueta-campo">Precio Unitario (Bs.)</label>
+                                <input type="number" id="prodExtraPrecio" class="control-input" min="1" step="0.5" placeholder="Ej. 15.00">
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="prodExtraImagenUrl" class="etiqueta-campo">URL de Imagen (Opcional)</label>
+                                <input type="url" id="prodExtraImagenUrl" class="control-input" placeholder="https://ejemplo.com/producto.jpg">
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="prodExtraImagenArchivo" class="etiqueta-campo">Subir Foto desde Dispositivo (Comprimida a DataURL)</label>
+                                <input type="file" id="prodExtraImagenArchivo" class="control-input" accept="image/*">
+                            </div>
+                            <div id="contenedorPreviewFoto" class="preview-foto-box" hidden>
+                                <img id="previewProdExtra" class="tarjeta-ods__imagen tarjeta-ods__imagen--foto img-ampliable" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Crect width='320' height='180' fill='%2329b6f6'/%3E%3C/svg%3E" alt="Vista previa de imagen del nuevo producto" loading="lazy">
+                            </div>
+                            <button type="submit" class="btn-primario">Guardar Producto en Catalogo</button>
+                        </form>
+                        <div id="feedbackProdExtra" class="feedback-formulario" aria-live="polite" hidden></div>
+                    </article>
+
+                    <article class="panel-bloque">
+                        <h2 class="titulo-seccion">Productos Extra Publicados</h2>
+                        <div id="listaProductosExtra" class="lista-elementos" aria-live="polite"></div>
+                    </article>
+                </div>
+            </section>
+
+            <section id="vista-op-promo" class="vista-panel" data-rol="operativo" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <h2 class="titulo-seccion">Editor de Promocion Express</h2>
+                        <span id="promoEstadoBadge" class="badge-estado badge-estado--pendiente">PAUSADA</span>
+                    </div>
+                    <p id="promoMetaVigencia" class="micro-guia">Sincronizando estado de promocion...</p>
+                    <form id="formPromoExpress" class="formulario-estandar" novalidate>
+                        <div class="campo-grupo">
+                            <label for="promoEditTitulo" class="etiqueta-campo">Titulo de la Oferta</label>
+                            <input type="text" id="promoEditTitulo" class="control-input" placeholder="Ej. Combo Velas + Globos">
+                        </div>
+                        <div class="campo-grupo">
+                            <label for="promoEditDesc" class="etiqueta-campo">Descripcion de la Promocion</label>
+                            <textarea id="promoEditDesc" class="control-textarea" rows="3" placeholder="Descuento especial por tiempo limitado disponible para todo publico."></textarea>
+                        </div>
+                        <div class="campo-grupo">
+                            <label for="promoModoVigencia" class="etiqueta-campo">Modo de Vigencia y Temporizador</label>
+                            <select id="promoModoVigencia" class="control-select">
+                                <option value="evergreen" selected>Siempre activa (ventana flash por visita para cada cliente)</option>
+                                <option value="15m">Oferta relampago global: 15 minutos (tiempo real)</option>
+                                <option value="24h">Oferta del dia: 24 horas (tiempo real)</option>
+                                <option value="7d">Campana semanal: 7 dias (tiempo real)</option>
+                            </select>
+                            <p id="promoModoAyuda" class="card-item__meta">Cada cliente recibe una ventana flash individual al visitar el catalogo sin que la oferta caduque cuando nadie entra.</p>
+                        </div>
+                        <div class="grilla-dos-col">
+                            <div class="campo-grupo">
+                                <label for="promoEditPrecio" class="etiqueta-campo">Precio Promocional (Bs.)</label>
+                                <input type="number" id="promoEditPrecio" class="control-input" min="1" step="0.5" value="25">
+                            </div>
+                            <div id="grupoDuracionFlash" class="campo-grupo">
+                                <label for="promoEditDuracion" class="etiqueta-campo">Ventana Flash por Visita (Minutos)</label>
+                                <input type="number" id="promoEditDuracion" class="control-input" min="1" max="1440" value="15">
+                            </div>
+                        </div>
+                        <label for="promoActivaCheck" class="fila-check-promo">
+                            <input type="checkbox" id="promoActivaCheck" class="control-check" checked>
+                            <span class="etiqueta-campo">Promocion activa y visible para clientes</span>
+                        </label>
+                        <button type="submit" class="btn-primario">Guardar Promocion</button>
+                    </form>
+                    <div id="feedbackPromoOp" class="feedback-formulario" aria-live="polite" hidden></div>
+                </article>
+            </section>
+
+            <section id="vista-admin-control" class="vista-panel" data-rol="admin" hidden>
+                <div class="grilla-metricas">
+                    <article class="tarjeta-metrica">
+                        <span class="tarjeta-metrica__etiqueta">Pedidos Registrados</span>
+                        <strong id="metricaPedidos" class="tarjeta-metrica__valor">0</strong>
+                    </article>
+                    <article class="tarjeta-metrica">
+                        <span class="tarjeta-metrica__etiqueta">Ingresos Confirmados</span>
+                        <strong id="metricaIngresos" class="tarjeta-metrica__valor">Bs. 0.00</strong>
+                    </article>
+                    <article class="tarjeta-metrica">
+                        <span class="tarjeta-metrica__etiqueta">Consultas Pendientes</span>
+                        <strong id="metricaConsultasPend" class="tarjeta-metrica__valor">0</strong>
+                    </article>
+                    <article class="tarjeta-metrica">
+                        <span class="tarjeta-metrica__etiqueta">Productos Activos</span>
+                        <strong id="metricaProductosActivos" class="tarjeta-metrica__valor">64</strong>
+                    </article>
+                </div>
+
+                <div class="grilla-dos-col">
+                    <article class="panel-bloque">
+                        <div class="tarjeta-operativa__cabecera">
+                            <h2 class="titulo-seccion">Actividad en Vivo</h2>
+                            <button type="button" id="btnRefrescarActividad" class="btn-secundario">Actualizar</button>
+                        </div>
+                        <div id="listaActividadClientes" class="lista-elementos" aria-live="polite"></div>
+                    </article>
+
+                    <article class="panel-bloque">
+                        <h2 class="titulo-seccion">Cuentas Internas (catalogo_snoopy)</h2>
+                        <form id="formNuevaCuentaInterna" class="formulario-estandar" novalidate>
+                            <div class="campo-grupo">
+                                <label for="adminNuevoUsuario" class="etiqueta-campo">Usuario Interno</label>
+                                <input type="text" id="adminNuevoUsuario" class="control-input" placeholder="Nombre de usuario">
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="adminNuevaClave" class="etiqueta-campo">Clave de Acceso</label>
+                                <input type="password" id="adminNuevaClave" class="control-input" placeholder="Minimo 6 caracteres">
+                            </div>
+                            <div class="campo-grupo">
+                                <label for="adminNuevoRol" class="etiqueta-campo">Rol Asignado</label>
+                                <select id="adminNuevoRol" class="control-select">
+                                    <option value="encargado">Encargado</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primario">Crear Cuenta Interna</button>
+                        </form>
+                        <div id="feedbackCuentaInterna" class="feedback-formulario" aria-live="polite" hidden></div>
+                        <h3 class="subtitulo-bloque">Directorio de Cuentas</h3>
+                        <ul id="listaCuentasInternas" class="lista-elementos" aria-live="polite"></ul>
+                    </article>
+                </div>
+            </section>
+
+            <section id="vista-admin-auditoria" class="vista-panel" data-rol="admin" hidden>
+                <article class="panel-bloque">
+                    <div class="tarjeta-operativa__cabecera">
+                        <h2 class="titulo-seccion">Bitacora DOM y Auditoria del Sistema</h2>
+                        <div class="fila-tactil">
+                            <button type="button" id="btnLimpiarBitacora" class="btn-secundario">Limpiar Bitacora Local</button>
+                            <button type="button" id="btnPurgarActividadRemota" class="btn-peligro">Purgar Actividad Remota</button>
+                        </div>
+                    </div>
+                    <ul id="listaBitacoraDom" class="consola-bitacora" aria-live="polite"></ul>
+                </article>
+
+                <!-- Semana 3 - Desarrollo Agil y Smoke Testing -->
+                <section class="panel-auditoria" aria-label="Auditoria rapida del DOM">
+                    <h2 class="titulo-seccion">Smoke Test DOM</h2>
+                    <button type="button" id="btnSmokeTest" class="btn-primario btn-tactil">Ejecutar Smoke Test DOM</button>
+                    <p id="salidaAudit" aria-live="polite">Estado: Listo para verificar.</p>
+                </section>
+
+                <!-- Semana 3 - Cierre A11Y HTML5 y HMR -->
+                <section class="panel-cierre-a11y" aria-label="Verificacion semantica HTML5 en vivo">
+                    <h2 class="titulo-seccion">Auditoria Semantica HTML5 sin Recarga</h2>
+                    <button type="button" id="btnAuditarA11Y" class="btn-primario btn-tactil">Verificar Semantica HTML5 (Sin Recarga)</button>
+                    <p id="reporteA11Y" role="status" aria-live="polite">Estado: Listo para auditar.</p>
+                </section>
+            </section>
+
+            <footer class="pie-institucional">
+                <p class="pie-institucional__texto">Cotillones Snoopy - Velas, Globos, Toppers, Decoracion y Baby Shower. Tu Tienda Alegre de Fiesta en Linea.</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Semana 1 - Menu Hamburguesa -->
+    <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+    <aside id="drawerMenuMovil" class="drawer-movil" role="dialog" aria-modal="true" aria-label="Menu festivo de navegacion" aria-hidden="true">
+        <div class="drawer-movil__tirador" aria-hidden="true"></div>
+        <div class="drawer-movil__cabecera">
+            <div class="drawer-movil__identidad">
+                <div class="drawer-movil__marca">
+                    <img src="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1" alt="Logo oficial de Cotillones Snoopy" class="marca-logo-img">
+                    <strong>Cotillones Snoopy</strong>
+                </div>
+                <div class="drawer-movil__sesion">
+                    <span id="drawerUsuarioActivo" class="drawer-movil__usuario">Invitado</span>
+                    <span id="drawerRolBadge" class="badge-rol badge-rol--cliente">Cliente</span>
+                </div>
+            </div>
+            <button type="button" id="btnCerrarDrawer" class="drawer-movil__cerrar" aria-label="Cerrar menu lateral">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <nav id="drawerListaNav" class="drawer-movil__nav" aria-label="Secciones de la aplicacion">
+            <button type="button" class="drawer-movil__item drawer-movil__item--activo activo" data-vista="vista-catalogo" data-rol="cliente">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>Catalogo</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vistaMisPedidos" data-rol="cliente">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/></svg>
+                <span>Mis Pedidos</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-cotizador" data-rol="cliente">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+                <span>Cotizador</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-contacto" data-rol="cliente">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <span>Contacto</span>
+            </button>
+
+            <button type="button" class="drawer-movil__item" data-vista="vista-admin-control" data-rol="admin" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                <span>Control</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-op-pedidos" data-rol="operativo" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/></svg>
+                <span>Pedidos</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-op-consultas" data-rol="operativo" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>
+                <span>Consultas</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-op-reservas" data-rol="operativo" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>Reservas</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-op-productos" data-rol="operativo" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span>Productos</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-op-promo" data-rol="operativo" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Promo</span>
+            </button>
+            <button type="button" class="drawer-movil__item" data-vista="vista-admin-auditoria" data-rol="admin" hidden>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>Auditoria</span>
+            </button>
+        </nav>
+
+        <div class="drawer-movil__pie">
+            <button type="button" id="btnDrawerAcceso" class="drawer-movil__accion">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Iniciar Sesion / Cambiar Cuenta</span>
+            </button>
+            <button type="button" id="btnDrawerTema" class="drawer-movil__accion">
+                <svg class="icono-luna" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icono-sol" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/></svg>
+                <span id="drawerTemaTexto">Cambiar a Modo Oscuro</span>
+            </button>
+            <div class="drawer-movil__estado">
+                <span>Estado de conexion</span>
+                <span id="drawerEstadoRed" class="indicador-red" role="status" aria-live="polite">ONLINE</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Semana 3 - Flujo de Pago Rapido -->
+    <aside id="barraPagoRapido" class="barra-pago-rapido" aria-label="Resumen rapido de pedido" hidden>
+        <div class="barra-pago-rapido__info">
+            <strong id="barraPagoResumen">0 items | Bs. 0.00</strong>
+            <span class="barra-pago-rapido__ayuda">Listo para confirmar pedido de fiesta</span>
+        </div>
+        <div class="barra-pago-rapido__acciones">
+            <button type="button" id="btnBarraVerCarrito" class="barra-pago-rapido__btn-sec">Ver detalle</button>
+            <button type="button" id="btnBarraPagarAhora" class="barra-pago-rapido__btn-pri">Pagar ahora</button>
+        </div>
+    </aside>
+
+    <!-- Semana 3 - Redes Sociales Oficiales -->
+    <nav id="barraRedesSociales" class="barra-redes" aria-label="Redes sociales oficiales">
+        <span class="barra-redes__etiqueta">Siguenos o escribenos:</span>
+        <a href="https://www.facebook.com/" class="barra-redes__btn barra-redes__btn--fb" target="_blank" rel="noopener noreferrer" aria-label="Visitar pagina oficial de Cotillones Snoopy en Facebook">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <span class="barra-redes__texto">Facebook</span>
+        </a>
+        <a href="https://www.instagram.com/" class="barra-redes__btn barra-redes__btn--ig" target="_blank" rel="noopener noreferrer" aria-label="Visitar perfil oficial de Cotillones Snoopy en Instagram">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <span class="barra-redes__texto">Instagram</span>
+        </a>
+        <a href="https://wa.me/59172015082?text=Hola%20Cotillones%20Snoopy%2C%20quiero%20consultar%20por%20el%20catalogo%20de%20fiesta" class="barra-redes__btn barra-redes__btn--wa" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp oficial de Cotillones Snoopy al 72015082">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span class="barra-redes__texto">WhatsApp</span>
+        </a>
+    </nav>
+
+    <!-- Semana 3 - Carrito Boutique Festivo -->
+    <div id="carritoBackdrop" class="carrito-backdrop" hidden></div>
+    <aside id="panelCarritoDrawer" class="carrito-drawer" role="dialog" aria-modal="true" aria-labelledby="tituloCarritoFiesta" aria-label="Carrito de pedidos" hidden>
+        <div class="carrito-drawer__cabecera">
+            <div class="carrito-drawer__tirador" aria-hidden="true"></div>
+            <div class="carrito-drawer__cabecera-fila">
+                <div class="carrito-drawer__titulo-grupo">
+                    <span class="carrito-drawer__icono-cabecera" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+                    </span>
+                    <div class="carrito-drawer__titulo-texto">
+                        <h2 id="tituloCarritoFiesta" class="carrito-drawer__titulo">Mi Carrito de Fiesta</h2>
+                        <span id="carritoCabeceraBadge" class="carrito-drawer__badge">0 articulos</span>
+                    </div>
+                </div>
+                <button type="button" id="btnCerrarCarrito" class="carrito-drawer__cerrar" aria-label="Cerrar carrito" title="Cerrar carrito">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="carrito-drawer__cuerpo">
+            <div id="carritoVacioMensaje" class="carrito-vacio">
+                <div class="carrito-vacio__icono" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="54" height="54" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M14 22h36l-3 30a4 4 0 0 1-4 3.6H21a4 4 0 0 1-4-3.6L14 22z"/>
+                        <path d="M23 22v-4a9 9 0 0 1 18 0v4"/>
+                        <path d="M26 36l4 4 9-9"/>
+                        <circle cx="14" cy="12" r="2.2" fill="currentColor" stroke="none"/>
+                        <circle cx="52" cy="14" r="2.6" fill="currentColor" stroke="none"/>
+                        <circle cx="48" cy="8" r="1.6" fill="currentColor" stroke="none"/>
+                    </svg>
+                </div>
+                <p class="carrito-vacio__titulo">Tu bolsa de fiesta esta vacia</p>
+                <p class="carrito-vacio__texto">Agrega velas, globos, toppers, pinatas o combos desde el catalogo para armar tu celebracion.</p>
+                <button type="button" id="btnExplorarDesdeCarrito" class="carrito-vacio__btn">Explorar productos</button>
+            </div>
+            <ul id="listaItemsCarrito" class="carrito-lista" hidden></ul>
+        </div>
+
+        <div class="carrito-drawer__pie">
+            <div class="carrito-ticket">
+                <div class="carrito-ticket__fila">
+                    <span>Items totales</span>
+                    <strong id="carritoUnidades">0</strong>
+                </div>
+                <div class="carrito-ticket__fila">
+                    <span>Subtotal</span>
+                    <strong id="carritoSubtotal">Bs. 0.00</strong>
+                </div>
+                <div class="carrito-ticket__fila">
+                    <span>Impuesto (13%)</span>
+                    <strong id="carritoImpuesto">Bs. 0.00</strong>
+                </div>
+                <div class="carrito-ticket__total">
+                    <span>Total a Pagar</span>
+                    <strong id="carritoTotal" class="carrito-ticket__monto-total">Bs. 0.00</strong>
+                </div>
+            </div>
+            <div class="carrito-acciones">
+                <button type="button" id="btnAbrirCheckout" class="carrito-acciones__confirmar">Confirmar Pedido</button>
+                <div class="carrito-acciones__secundarias">
+                    <button type="button" id="btnIrAMisPedidosCarrito" class="carrito-acciones__pedidos">Mis Pedidos</button>
+                    <button type="button" id="btnVaciarCarrito" class="carrito-acciones__vaciar">Vaciar</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div id="modalCheckout" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="tituloModalCheckout" hidden>
+        <div class="modal-caja">
+            <div class="modal-cabecera">
+                <h2 id="tituloModalCheckout" class="titulo-seccion">Confirmar Pedido de Fiesta</h2>
+                <button type="button" id="btnCerrarCheckout" class="btn-secundario" aria-label="Cerrar confirmacion">Cerrar</button>
+            </div>
+            <div id="bloqueTimerCheckout" class="panel-bloque">
+                <p class="card-item__meta">Precio asegurado por: <strong id="temporizadorTexto">05:00</strong></p>
+                <div class="barra-progreso">
+                    <div id="barraProgresoTiempo" class="barra-progreso__relleno"></div>
+                </div>
+            </div>
+            <form id="formCheckout" class="formulario-estandar" novalidate>
+                <div id="grupoCheckoutNombreCliente" class="campo-grupo">
+                    <label for="checkoutNombreCliente" class="etiqueta-campo">Tu nombre o familia</label>
+                    <input type="text" id="checkoutNombreCliente" class="control-input" placeholder="Ingresa tu nombre completo" required>
+                </div>
+                <div class="campo-grupo">
+                    <label for="checkoutModalidad" class="etiqueta-campo">Modalidad de Entrega</label>
+                    <select id="checkoutModalidad" class="control-select">
+                        <option value="Envio a Domicilio">Envio a Domicilio</option>
+                        <option value="Retiro en Tienda Cotillones Snoopy">Retiro en Tienda Cotillones Snoopy</option>
+                    </select>
+                </div>
+                <div class="campo-grupo">
+                    <label for="checkoutNotasEntrega" class="etiqueta-campo">Direccion o notas de entrega (opcional)</label>
+                    <input type="text" id="checkoutNotasEntrega" class="control-input" placeholder="Ej. Av. Banzer 4to anillo, casa 12 o referencia de entrega">
+                </div>
+                <div class="campo-grupo">
+                    <label for="checkoutPago" class="etiqueta-campo">Forma de Pago</label>
+                    <select id="checkoutPago" class="control-select">
+                        <option value="Pago por QR">Pago por QR</option>
+                        <option value="Transferencia Bancaria">Transferencia Bancaria</option>
+                        <option value="Efectivo Contra Entrega">Efectivo Contra Entrega</option>
+                    </select>
+                </div>
+                <!-- Semana 3 - Panel Dinamico de Forma de Pago -->
+                <div id="panelDetallePago" class="panel-detalle-pago" aria-live="polite"></div>
+                <button type="submit" id="btnSubmitCheckout" class="btn-primario">Confirmar Pedido</button>
+            </form>
+            <div id="feedbackCheckout" class="feedback-formulario" aria-live="polite" hidden></div>
+            <div id="invitacionCuentaCheckout" class="micro-guia fila-tactil">
+                <span>Quieres guardar tu historial de fiestas entre dispositivos? Crea una cuenta rapida en segundos.</span>
+                <button type="button" class="btn-secundario btn-abrir-registro-rapido">Crear cuenta rapida</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAcceso" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="tituloModalAcceso" hidden>
+        <div class="modal-caja">
+            <div class="modal-cabecera">
+                <div class="modal-cabecera__marca">
+                    <img src="https://www.dropbox.com/scl/fi/xgxpko5fk9m8msyq81bw3/809d314b-2d7d-4ffc-80e9-f8357cb0ad87.jpg?rlkey=ha5kxcldpuk7tj4l051wedov7&st=s0bpl61w&raw=1" alt="Logo oficial de Cotillones Snoopy" class="marca-logo-img">
+                    <h2 id="tituloModalAcceso" class="titulo-seccion">Cuenta Cotillones Snoopy</h2>
+                </div>
+                <button type="button" id="btnCerrarAcceso" class="btn-secundario" aria-label="Cerrar ventana de acceso">Cerrar</button>
+            </div>
+            <p id="resumenSesionModal" class="micro-guia">Sesion actual: Invitado (Cliente)</p>
+
+            <div id="bloqueFormulariosAcceso" class="bloque-formularios-acceso">
+                <div class="tabs-acceso" role="tablist" aria-label="Tipo de acceso">
+                    <button type="button" class="btn-subtab btn-subtab--activo" data-grupo="acceso" data-subtab="subtab-login">Iniciar Sesion</button>
+                    <button type="button" class="btn-subtab" data-grupo="acceso" data-subtab="subtab-registro">Registro Cliente</button>
+                </div>
+
+                <div id="subtab-login" class="panel-subtab" data-grupo="acceso">
+                    <form id="formLogin" class="formulario-estandar" novalidate>
+                        <div class="campo-grupo">
+                            <label for="loginUsuario" class="etiqueta-campo">Usuario</label>
+                            <input type="text" id="loginUsuario" class="control-input" placeholder="Ingresa tu usuario" autocomplete="username">
+                        </div>
+                        <div class="campo-grupo">
+                            <label for="loginClave" class="etiqueta-campo">Clave</label>
+                            <input type="password" id="loginClave" class="control-input" placeholder="Ingresa tu clave" autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn-primario">Ingresar</button>
+                    </form>
+                </div>
+
+                <div id="subtab-registro" class="panel-subtab" data-grupo="acceso" hidden>
+                    <form id="formRegistroCliente" class="formulario-estandar" novalidate>
+                        <div class="campo-grupo">
+                            <label for="regNombreCompleto" class="etiqueta-campo">Nombre Completo</label>
+                            <input type="text" id="regNombreCompleto" class="control-input" placeholder="Ingresa tu nombre y apellido" autocomplete="name">
+                        </div>
+                        <div class="campo-grupo">
+                            <label for="regUsuario" class="etiqueta-campo">Nuevo Usuario Cliente</label>
+                            <input type="text" id="regUsuario" class="control-input" placeholder="Elige tu nombre de usuario">
+                        </div>
+                        <div class="campo-grupo">
+                            <label for="regClave" class="etiqueta-campo">Clave (minimo 6 caracteres)</label>
+                            <input type="password" id="regClave" class="control-input" placeholder="Crea tu clave">
+                        </div>
+                        <button type="submit" class="btn-primario">Crear Cuenta Cliente</button>
+                    </form>
+                </div>
+
+                <div id="feedbackAcceso" class="feedback-formulario" aria-live="polite" hidden></div>
+            </div>
+
+            <div id="bloqueCerrarSesion" class="perfil-activo-card" hidden>
+                <div class="perfil-activo-card__avatar" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="perfil-activo-card__identidad">
+                    <h3 id="perfilActivoUsuario" class="perfil-activo-card__usuario">Invitado</h3>
+                    <span id="perfilActivoRol" class="badge-rol badge-rol--cliente">Cliente</span>
+                </div>
+                <p class="perfil-activo-card__mensaje">Tu historial de pedidos y preferencias estan sincronizados</p>
+                <button type="button" id="btnCerrarSesion" class="btn-peligro perfil-activo-card__btn-salir">Cerrar Sesion</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contenedorToasts" class="contenedor-toasts" aria-live="polite"></div>
+
+    <div id="lightboxImagenVisor" class="lightbox-visor" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
+        <div class="lightbox-visor__caja">
+            <button type="button" id="btnCerrarLightbox" class="lightbox-visor__cerrar" aria-label="Cerrar vista ampliada">Cerrar</button>
+            <img id="lightboxImagenFoto" class="lightbox-visor__imagen" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'/%3E" alt="Vista ampliada" loading="lazy">
+            <p id="lightboxImagenTitulo" class="lightbox-visor__titulo"></p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Semana 3 - DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script src="./JS/script.js"></script>
+</body>
+</html>
