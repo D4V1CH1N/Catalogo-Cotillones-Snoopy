@@ -495,19 +495,29 @@ body.dark-mode .icono-luna {
     display: none;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 767px) {
+    .header-identidad {
+        gap: 5px;
+    }
+
+    .marca-pildora {
+        gap: 5px;
+    }
+
+    .marca-logo-img,
     .marca-pildora__emblema svg {
-        width: 28px;
-        height: 28px;
+        width: 34px;
+        height: 34px;
     }
 
     .marca-pildora__titulo {
-        font-size: 0.88rem;
+        font-size: 0.84rem;
     }
 
     .indicador-red {
         padding: 2px 5px;
         font-size: 0.56rem;
+        flex-shrink: 0;
     }
 }
 
@@ -2342,23 +2352,30 @@ body.dark-mode .detalle-producto__stepper-btn--mas {
     color: #1e1b4b;
 }
 
-@media (max-width: 520px) {
-    .card-item__acciones:has(.stepper-inline) {
+@media (max-width: 767px) {
+    .card-item__acciones {
         grid-template-columns: 1fr;
+        gap: 6px;
     }
 
-    .card-item__acciones:has(.stepper-inline) .card-item__btn-comprar-ya {
+    .card-item__control-cantidad .card-item__btn-simular,
+    .card-item__btn-comprar-ya {
         width: 100%;
     }
 }
 
 @media (min-width: 768px) {
+    .card-item__acciones {
+        grid-template-columns: 1fr auto;
+    }
+
     .card-item__control-cantidad .card-item__btn-simular {
         padding: 0 12px;
         font-size: 0.84rem;
     }
 
     .card-item__btn-comprar-ya {
+        width: auto;
         padding: 0 14px;
         font-size: 0.82rem;
     }

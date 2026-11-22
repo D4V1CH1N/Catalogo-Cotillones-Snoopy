@@ -1747,7 +1747,6 @@ $(document).ready(function () {
     const UMBRAL_EVERGREEN_MS = 180 * 24 * 60 * 60 * 1000;
     let promoActual = null;
     let promoExpiracionNotificada = false;
-    let promoReclamos = 0;
     let imagenDataUrlCargada = '';
     let temporizadorCheckout = null;
     const DURACION_CHECKOUT_SEG = 300;
@@ -4166,8 +4165,6 @@ $(document).ready(function () {
 
     $('#btnReclamarPromo').on('click', async function () {
         if (!promoActual || fuePromoReclamada(promoActual)) return;
-        promoReclamos += 1;
-        $('#promoConfirmaciones').text(promoReclamos + ' reclamos');
         marcarPromoReclamada(promoActual);
         const banner = document.getElementById('bannerPromoExpress');
         if (banner) banner.hidden = true;
