@@ -3947,6 +3947,61 @@ body.dark-mode .panel-detalle-pago__cambio--alerta {
     color: var(--color-texto-secundario);
 }
 
+.pie-institucional__redes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pie-institucional__red-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background-color: var(--color-superficie-alt);
+    border: 1.5px solid var(--color-borde);
+    color: var(--color-texto);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: transform 0.18s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.pie-institucional__red-btn:hover {
+    transform: translateY(-2px);
+}
+
+.pie-institucional__red-btn--fb:hover {
+    background-color: #1877f2;
+    border-color: #1877f2;
+    color: #ffffff;
+}
+
+.pie-institucional__red-btn--tt:hover {
+    background-color: #111827;
+    border-color: #111827;
+    color: #ffffff;
+}
+
+body.modo-oscuro .pie-institucional__red-btn--tt:hover,
+body.dark-mode .pie-institucional__red-btn--tt:hover {
+    background-color: #fe2c55;
+    border-color: #fe2c55;
+    color: #ffffff;
+}
+
+.pie-institucional__red-btn--wa:hover {
+    background-color: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+}
+
 /* Semana 3 - Redes Sociales Oficiales */
 .barra-redes {
     position: fixed;
@@ -3966,7 +4021,7 @@ body.dark-mode .panel-detalle-pago__cambio--alerta {
 }
 
 body.con-barra-pago .barra-redes {
-    bottom: calc(162px + env(safe-area-inset-bottom));
+    bottom: calc(196px + env(safe-area-inset-bottom));
 }
 
 .barra-redes__etiqueta,
@@ -4001,8 +4056,8 @@ body.con-barra-pago .barra-redes {
     background-color: #1877f2;
 }
 
-.barra-redes__btn--ig {
-    background-color: #ec4899;
+.barra-redes__btn--tt {
+    background-color: #111827;
 }
 
 .barra-redes__btn--wa {
@@ -4054,6 +4109,7 @@ body.con-barra-pago .barra-redes {
     .barra-redes__btn {
         width: auto;
         height: auto;
+        min-width: 44px;
         min-height: 44px;
         padding: 0 18px;
         gap: 8px;
@@ -4070,9 +4126,16 @@ body.con-barra-pago .barra-redes {
         color: #ffffff;
     }
 
-    .barra-redes__btn--ig:hover {
-        background-color: #ec4899;
-        border-color: #ec4899;
+    .barra-redes__btn--tt:hover {
+        background-color: #111827;
+        border-color: #111827;
+        color: #ffffff;
+    }
+
+    body.modo-oscuro .barra-redes__btn--tt:hover,
+    body.dark-mode .barra-redes__btn--tt:hover {
+        background-color: #fe2c55;
+        border-color: #fe2c55;
         color: #ffffff;
     }
 

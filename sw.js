@@ -1,5 +1,5 @@
 // Semana 2 - Arquitectura PWA Offline
-const NOMBRE_CACHE = 'pwa-cache-snoopy-v33';
+const NOMBRE_CACHE = 'pwa-cache-snoopy-v34';
 const RECURSOS_CACHE = [
     './',
     './index.html',
